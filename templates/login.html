@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+
+{% block main_content %}
+<div class="container">
+    <div class="row">
+        <div class="com-md-8 mx-auto">
+            <img class="img-fluid" src="https://steamcdn-a.akamaihd.net/steam/apps/703080/header.jpg?t=1570609978"
+                alt="">
+        </div>
+    </div>
+</div>
+<br>
+<hr>
+<div class="col-10 col-lg-6 mx-auto">
+    <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+            <legend class="mb-5">Login Here</legend>
+            <div class="form-group">
+                {{ form.email.label(class="form-control-label") }}
+                {% if form.email.errors  %}
+                    {{ form.email(class="form-control form-control-md is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.email.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}    
+                    </div>
+                {% else %}
+                    {{ form.email(class="form-control form-control-md") }}
+                {% endif %}
+            </div>
+            <div class="form-group">
+                {{ form.password.label(class="form-control-label") }}
+                {% if form.password.errors  %}
+                    {{ form.password(class="form-control form-control-md is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.password.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}    
+                    </div>
+                {% else %}
+                    {{ form.password(class="form-control form-control-md") }}
+                {% endif %}
+            </div>
+        </fieldset>
+        <div class="form-group">
+            {{ form.submit(class="btn btn-outline-info") }}
+        </div>
+        <small>Forgot Password<a class="ml-2" href="#">Reset Password!</a></small>
+        <br>
+        <small>New Member? <a class="ml-2" href="{{ url_for('register') }}">Register Here!</a></small>
+    </form>
+</div>
+{% endblock main_content %}
