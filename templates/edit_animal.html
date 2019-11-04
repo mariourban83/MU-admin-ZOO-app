@@ -51,9 +51,12 @@
                         <label for="title">Section</label>
                         <input type="text" name="section" id="section" value="{{animal.section}}" class="form-control">
                 </div>
-
-                <button type="submit" class="btn btn-outline-success mr-3">Update Animal Data</button>
-                <a class="btn btn-outline-danger text-dark mr-2" href="{{ url_for('animals') }}">Go back without saving</a>
+                <br>
+                <div class="container text-center">
+                        <button type="submit" class="btn btn-outline-success mr-3">Save Changes</button>
+                        <a class="btn btn-outline-danger text-dark mr-2" href="{{ url_for('animals') }}">Discard Changes</a>
+                </div>
+                <br>  
     </form>
 </div>
 
