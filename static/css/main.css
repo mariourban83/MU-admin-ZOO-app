@@ -2,7 +2,8 @@ body {
     background-image: url("https://www.dublinzoo.ie/wp-content/themes/zoo/assets/dist/images/patterns/cta-giraffe1.svg");
     background-repeat: repeat;
 }
-
+/* Properties for images with overlay on home page */
+/* source : https://stackoverflow.com/questions/53727792/bootstrap-responsive-images-with-shadowtext-overlays-and-another-overlay-when-h */
 .db-options {
     position: relative;
   }
@@ -37,3 +38,4 @@ body {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
+  /* End of Properties for images with overlay on home page */

@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, url_for,flash, redirect, request
 from flask_pymongo import PyMongo
-from forms import AnimalForm, LoginForm, RegistrationForm
+from forms import AddAnimalForm, LoginForm, RegistrationForm
 from bson.objectid import ObjectId
 
 app = Flask(__name__)
@@ -18,16 +18,42 @@ def animals():
     animals = mongo.db.animals.find() 
     return render_template('animals.html',title='Animals', animals=animals) 
 
-@app.route('/animals/new',methods=['GET','POST'])
+@app.route('/new',methods=['GET','POST'])
 def new_animal():
-    form = AnimalForm()
-    if form.validate_on_submit():
-        if form.data:
-            mongo.db.animals.insert_one(request.form.to_dict())
-            return redirect(url_for('animals'))
-        else:
-            return redirect(url_for('new_animal'))    
-    return render_template('new_animal.html',title='Add New Animal', form=form )
+
+    if request.method == 'POST':
+        data = request.form.to_dict(flat=False)
+        animal = mongo.db.animals.insert_one(data)
+        return redirect('animals')
+   
+    return render_template('new_animal.html',title='Add New Animal', animal={})
+
+
+@app.route('/edit_animal/<animal_id>')
+def edit_animal(animal_id):
+    animal =  mongo.db.animals.find_one({"_id": ObjectId(animal_id)})
+    return render_template('edit_animal.html', animal=animal,title='Edit Animal')
+
+
+@app.route('/update_animal/<animal_id>', methods=['GET','POST'])
+def update_animal(animal_id):
+    animals = mongo.db.animals
+    animals.update( {'_id': ObjectId(animal_id)},
+    {
+        'common_name':request.form.get('common_name'),
+        'scientific_name':request.form.get('scientific_name'),
+        'diet': request.form.get('diet'),
+        'avg_lifespan': request.form.get('avg_lifespan'),
+        'size':request.form.get('size'),
+        'weight':request.form.get('weight'),
+        'about':request.form.get('about'),
+        'behavior':request.form.get('behavior'),
+        'facts':request.form.get('facts'),
+        'img':request.form.get('img'),
+        'source':request.form.get('source'),
+        'section':request.form.get('section')
+    })
+    return redirect(url_for('animals'))
 
 @app.route("/",methods=['GET','POST'])
 @app.route('/login',methods=['GET','POST'])

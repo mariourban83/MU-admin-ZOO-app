@@ -1,182 +1,57 @@
 {% extends "layout.html" %}
 {% block main_content %}
 <div class="container col-8 col-md-5">
-        <form action="{{ url_for('new_animal') }}" method="POST">
-        {{ form.hidden_tag() }}
-        <fieldset class="form-group">
-            <legend><strong>Enter New animal details :</strong></legend>
-            <div class="form-group">
-                {{ form.common_name.label(class="form-control-label") }}
-                {% if form.common_name.errors  %}
-                    {{ form.common_name(class="form-control form-control-md is-invalid") }}
-                    <div class="invalid-feedback">
-                        {% for error in form.common_name.errors %}
-                            <span>{{ error }}</span>
-                        {% endfor %}    
-                    </div>
-                {% else %}
-                    {{ form.common_name(class="form-control form-control-md") }}
-                {% endif %}
+    <form method="POST">
+        <div class="form-group">
+            <label for="title">Common Name</label>
+            <input type="text" name="common_name" id="common_name" value="{{animal.common_name}}" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="title">Scientific Name</label>
+            <input type="text" name="scientific_name" id="scientific_name" value="{{animal.scientific_name}}" class="form-control">
+        </div>
+        <div class="form-group">
+                <label for="title">Diet</label>
+                <input type="text" name="diet" id="diet" value="{{animal.diet}}" class="form-control">
+        </div>
+        <div class="form-group">
+                <label for="title">Average Lifespan</label>
+                <textarea name="avg_lifespan" id="avg_lifespan" value="{{animal.avg_lifespan}}" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+                <label for="title">Size</label>
+                <textarea name="size" id="size" value="{{animal.size}}" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+                <label for="title">Weight</label>
+                <textarea name="weight" id="weight" value="{{animal.weight}}" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="title">About</label>
+            <textarea name="about" id="about" value="{{animal.about}}" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+                <label for="title">Behavior</label>
+                <textarea name="behavior" id="behavior" value="{{animal.behavior}}" class="form-control"></textarea>
             </div>
             <div class="form-group">
-                    {{ form.scientific_name.label(class="form-control-label") }}
-                    {% if form.scientific_name.errors  %}
-                        {{ form.scientific_name(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.scientific_name.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.scientific_name(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.diet.label(class="form-control-label") }}
-                    {% if form.diet.errors  %}
-                        {{ form.diet(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.diet.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.diet(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.avg_lifespan.label(class="form-control-label") }}
-                    {% if form.avg_lifespan.errors  %}
-                        {{ form.avg_lifespan(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.avg_lifespan.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.avg_lifespan(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.size.label(class="form-control-label") }}
-                    {% if form.size.errors  %}
-                        {{ form.size(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.size.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.size(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.weight.label(class="form-control-label") }}
-                    {% if form.weight.errors  %}
-                        {{ form.weight(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.weight.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.weight(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.about.label(class="form-control-label") }}
-                    {% if form.about.errors  %}
-                        {{ form.about(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.about.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.about(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.behavior.label(class="form-control-label") }}
-                    {% if form.behavior.errors  %}
-                        {{ form.behavior(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.behavior.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.behavior(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.facts.label(class="form-control-label") }}
-                    {% if form.facts.errors  %}
-                        {{ form.facts(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.facts.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.facts(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.img.label(class="form-control-label") }}
-                    {% if form.img.errors  %}
-                        {{ form.img(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.img.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.img(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.source.label(class="form-control-label") }}
-                    {% if form.source.errors  %}
-                        {{ form.source(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.source.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.source(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.section.label(class="form-control-label") }}
-                    {% if form.section.errors  %}
-                        {{ form.section(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.section.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.section(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-            <div class="form-group">
-                    {{ form.other_optional.label(class="form-control-label") }}
-                    {% if form.other_optional.errors  %}
-                        {{ form.other_optional(class="form-control form-control-md is-invalid") }}
-                        <div class="invalid-feedback">
-                            {% for error in form.other_optional.errors %}
-                                <span>{{ error }}</span>
-                            {% endfor %}    
-                        </div>
-                    {% else %}
-                        {{ form.other_optional(class="form-control form-control-md") }}
-                    {% endif %}
-            </div>
-        </fieldset>
-        <div class="row">
-                <button class="btn btn btn-outline-info ml-4" type="submit">Add to Database</button>
+                    <label for="title">Facts</label>
+                    <textarea name="facts" id="facts" value="{{animal.facts}}" class="form-control"></textarea>
+                </div>
+        <div class="form-group">
+                <label for="title">Link to Image</label>
+                <textarea name="img" id="img" value="{{animal.img}}" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+                <label for="title">Source</label>
+                <textarea name="source" id="source" value="{{animal.source}}" class="form-control"></textarea>
+        </div>
+        <div class="form-group">
+                <label for="title">Section</label>
+                <input type="text" name="section" id="section" value="{{animal.section}}" class="form-control">
+        </div>
+        <button type="submit" class="btn btn-outline-info">Add to Database</button>
+        <a class="btn btn-outline-danger text-dark mr-2" href="{{ url_for('animals') }}">Go back without saving</a>
     </form>
 </div>
-{% endblock main_content %}    
+{% endblock main_content %}

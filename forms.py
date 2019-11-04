@@ -3,7 +3,7 @@ from wtforms import StringField, PasswordField, SubmitField, BooleanField, TextA
 from wtforms.validators import DataRequired, Length, Email,EqualTo
 
 # Create Flask Form for Adding New Animal to DB
-class AnimalForm(FlaskForm):
+class AddAnimalForm(FlaskForm):
     common_name = StringField('Common name :', validators=[DataRequired()])
     scientific_name = StringField('Scientific name :', validators=[DataRequired()])
     diet = TextAreaField('Diet :', validators=[DataRequired()])
