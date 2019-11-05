@@ -2,7 +2,7 @@
 import os
 from flask import Flask, render_template, url_for,flash, redirect, request
 from flask_pymongo import PyMongo
-from forms import AddAnimalForm, LoginForm, RegistrationForm
+from forms import AnimalForm, LoginForm, RegistrationForm
 from bson.objectid import ObjectId
 
 # Config files for the app
@@ -12,6 +12,7 @@ app.config["MONGO_URI"] = 'mongodb+srv://mario_1:PEgPBNn89YWJ4GYQ@testing1-kwpyu
 mongo = PyMongo(app)
 
 # Route for Home view
+@app.route("/")
 @app.route('/home')
 def home(): 
     return render_template('index.html',title='Home')
@@ -25,13 +26,13 @@ def animals():
 #  Route for new animal view- for adding new animal to the mongoDB   
 @app.route('/new',methods=['GET','POST'])
 def new_animal():
-
+    form = AnimalForm()
     if request.method == 'POST':
-        data = request.form.to_dict(flat=False)
-        animal = mongo.db.animals.insert_one(data)
-        return redirect('animals')
-   
-    return render_template('new_animal.html',title='Add New Animal', animal={})
+            mongo.db.animals.insert_one(form.data)
+            flash(f'New Animal Added for {form.common_name.data}!', 'success')
+            return redirect(url_for('animals'))
+    return render_template('new_animal.html',title='Add new Animal', form=form )
+
 
 #  Route for editing existing animal
 #  After selecting edit-animal on page, data are transfered and populated 
@@ -70,7 +71,6 @@ def delete_animal(animal_id):
 
 #  Default route , sets Login as landing view page
 #  Form from forms.py used for both login and register page
-@app.route("/",methods=['GET','POST'])
 @app.route('/login',methods=['GET','POST'])
 def login():
     form = LoginForm()
@@ -91,6 +91,4 @@ def register():
     return render_template('register.html',title='Register', form=form )
 
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-            port=int(os.environ.get('PORT')),
-)  
+    app.run(debug = True) 
