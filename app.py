@@ -1,9 +1,11 @@
 # Modules and libraries imported
 import os
-from flask import Flask, render_template, url_for,flash, redirect, request
+import bcrypt
+from flask import Flask, render_template, url_for,flash, redirect, request, session
 from flask_pymongo import PyMongo
 from forms import AnimalForm, LoginForm, RegistrationForm
 from bson.objectid import ObjectId
+
 
 # Config files for the app
 app = Flask(__name__)
@@ -14,8 +16,9 @@ mongo = PyMongo(app)
 # Route for Home view
 @app.route("/")
 @app.route('/home')
-def home(): 
-    return render_template('index.html',title='Home')
+def home():
+    animals=mongo.db.animals.count()
+    return render_template('index.html',title='Home',animals=animals)
 
 #  Route for Animals view with all animals pulled from mongoDB and displayed
 @app.route('/animals')
@@ -64,7 +67,7 @@ def update_animal(animal_id):
     })
     flash(f'Animal Updated!', 'success')
     return redirect(url_for('animals'))
-    
+
 #  Route for removing animal from the database
 @app.route('/delete_animal/<animal_id>')
 def delete_animal(animal_id):
@@ -84,8 +87,8 @@ def animal(animal_id):
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        if form.email.data == 'admin@zoo.com' and form.password.data == 'password':
-            flash(f'Login Successful for {form.email.data}!', 'success')
+        if form.user_email.data == 'admin@zoo.com' and form.password.data == 'password':
+            flash(f'Login Successful for {form.user_email.data}!', 'success')
             return redirect(url_for('home'))
         else:
              flash('Login Unsuccessful! Please check username and password', 'danger')  
@@ -94,10 +97,19 @@ def login():
 @app.route('/register', methods=['GET','POST'])
 def register():
     form = RegistrationForm()
-    if form.validate_on_submit():
-        flash(f'Account Created for {form.username.data}!', 'success')
-        return redirect(url_for('home'))
-    return render_template('register.html',title='Register', form=form )
+    users = mongo.db.users
+    if form.validate_on_submit() and request.method == 'POST':
+        existing_user = users.find_one({'user_email' : request.form['user_email']})
+        
+        if existing_user is None:
+                hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
+                users.insert({'username' : request.form['username'],'user_email' : request.form['user_email'], 'password' : hashpass})
+                session['user_email'] = request.form['user_email']
+                flash(f'Account Created for {form.username.data}!', 'success')
+                return redirect(url_for('home'))
+        flash('Unsuccessful! Username or password already in use!', 'danger')
+    return render_template('register.html', title='Register', form=form)
+        
 
 if __name__ == '__main__':
-    app.run(debug = True) 
+	app.run(host=os.getenv('IP'), port=os.getenv('PORT'), debug=False)  

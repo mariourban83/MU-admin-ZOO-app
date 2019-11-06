@@ -4,19 +4,18 @@ from wtforms.validators import DataRequired, Length, Email,EqualTo
 
 # Flask Login Form 
 class LoginForm(FlaskForm):
-    email = StringField('Email', 
+    user_email = StringField('Email', 
                             validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
-    remember = BooleanField('Remember Me')                    
+    password = PasswordField('Password', validators=[DataRequired()])                   
     submit = SubmitField('Login')
 
 # Flask Registration Form 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', 
                             validators=[DataRequired(), Length(min=5, max=20)])
-    email = StringField('Email', 
+    user_email = StringField('Email', 
                             validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=5, max=10)])
     confirm_password = PasswordField('Confirm Password', 
                                     validators=[DataRequired(), EqualTo('password')])                        
     submit = SubmitField('Sign Up')

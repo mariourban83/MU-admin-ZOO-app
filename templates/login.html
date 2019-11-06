@@ -47,16 +47,16 @@
             <fieldset class="form-group">
                 <legend class="mb-5">Login Here</legend>
                 <div class="form-group">
-                    {{ form.email.label(class="form-control-label") }}
-                    {% if form.email.errors  %}
-                        {{ form.email(class="form-control form-control-md is-invalid") }}
+                    {{ form.user_email.label(class="form-control-label") }}
+                    {% if form.user_email.errors  %}
+                        {{ form.user_email(class="form-control form-control-md is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.email.errors %}
+                            {% for error in form.user_email.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}    
                         </div>
                     {% else %}
-                        {{ form.email(class="form-control form-control-md") }}
+                        {{ form.user_email(class="form-control form-control-md") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
