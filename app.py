@@ -29,8 +29,9 @@ def new_animal():
     form = AnimalForm()
     if request.method == 'POST':
             mongo.db.animals.insert_one(form.data)
-            flash(f'New Animal Added for {form.common_name.data}!', 'success')
+            flash(f'{form.common_name.data} sucessfuly added!', 'success')
             return redirect(url_for('animals'))
+            
     return render_template('new_animal.html',title='Add new Animal', form=form )
 
 
@@ -61,14 +62,15 @@ def update_animal(animal_id):
         'source':request.form.get('source'),
         'section':request.form.get('section')
     })
+    flash(f'Animal Updated!', 'success')
     return redirect(url_for('animals'))
-
 #  Route for removing animal from the database
 @app.route('/delete_animal/<animal_id>')
 def delete_animal(animal_id):
     mongo.db.animals.remove({'_id': ObjectId(animal_id)})
+    flash(f'Animal Removed!', 'danger')
     return redirect(url_for('animals'))
-
+    
 #  Default route , sets Login as landing view page
 #  Form from forms.py used for both login and register page
 @app.route('/login',methods=['GET','POST'])

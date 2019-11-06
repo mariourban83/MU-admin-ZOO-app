@@ -1,29 +1,24 @@
- 
-{% extends "layout.html" %}
+ {% extends "layout.html" %}
 
-{% block main_content %}
+ {% block main_content %}
 
-{% for animal in animals %}
-<hr>
-<br>
-    <div class="row ">
-            <div class="container col-11 col-md-5 col-lg-5 mt-3">
-                <img class="img-fluid rounded" src="{{ animal.img }}" alt="">
-                <br>
-                <h4 class="pt-3"><strong>Common Name:</strong> {{ animal.common_name }}</h4>
-                <h5><strong>Scientific name:</strong> {{ animal.scientific_name }}</h5>
-                <h5><strong>Size: </strong>{{ animal.size }}</h5>
-                <h5><strong>Weight: </strong>{{ animal.weight }}</h5>
-                <h5><strong>Average Lifespan: </strong>{{ animal.avg_lifespan }}</h5>
-                <h5><strong>Diet: </strong>{{ animal.diet }}</h5>
-                <h5><strong>Section: </strong>{{ animal.section }}</h5>
-                <h5><strong>Source: </strong>{{ animal.source }}</h5>
-            </div>
-            <div class="container col-11 col-md-6 col-lg-5 mt-3 text-center">
-                <a class="btn btn-outline-info" href="{{url_for('edit_animal', animal_id=animal._id)}}">Update Animal</a>
-                <a class="btn btn-outline-danger" href="{{url_for('delete_animal', animal_id=animal._id)}}">Remove Animal</a>
-            </div>
+ {% for animal in animals %}
+ <hr>
+ <br>
+ <div class="row">
+     {% for animal in animals %}
+     <div class="container col-11 col-md-5 col-lg-2 mt-3 text-center mx-auto mb-5">
+            <h5 class="card-title">{{ animal.common_name }}</h5>
+             <a class="btn btn-outline btn-sm" href="#">
+                     <i class="material-icons">remove_red_eye</i></a>
+            <a class="btn btn-outline btn-sm" href="{{url_for('edit_animal', animal_id=animal._id)}}">
+                     <i class="material-icons">create</i></a>
+            <a class="btn btn-outline btn-sm" href="{{url_for('delete_animal', animal_id=animal._id)}}">
+                     <i class="material-icons">delete_sweep</i></a>     
+            <img src="{{ animal.img }}" class="card-img rounded" alt="...">
     </div>
+    {% endfor %}
+</div>
 <br>
 {% endfor %}
 {% endblock main_content %}

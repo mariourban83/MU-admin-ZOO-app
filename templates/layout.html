@@ -13,6 +13,7 @@
     rel="stylesheet">
       <!--Custom CSS-->
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
 
   {% if title %}
   <!--To print Title for each page if available-->
@@ -49,14 +50,26 @@
 
   <!--To print Name for each page if available-->
   {% if title %}
-    <h2 class="text-center pt-3 mb-4">ZOO | {{ title }}</h2>
+    <h2 class="text-center pt-3 mb-3">ZOO | {{ title }}</h2>
   {% else %}
     <h4>ZOO</h4>
   {% endif %}
 
+  <div class="col-md-6 col-lg-3 mx-auto">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="alert alert-{{ category }} text-center">
+              {{ message}}
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
   <!-- For displaying content on individual pages -->
 <div class="container-fluid">
   {% block main_content %}
+  
   {% endblock main_content %}
 </div>
 
@@ -71,7 +84,8 @@
         <p>
     </div>
   </footer>
-
+  
+   <!-- Bootstrap js -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
     integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
   </script>
