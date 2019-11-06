@@ -64,14 +64,21 @@ def update_animal(animal_id):
     })
     flash(f'Animal Updated!', 'success')
     return redirect(url_for('animals'))
+    
 #  Route for removing animal from the database
 @app.route('/delete_animal/<animal_id>')
 def delete_animal(animal_id):
     mongo.db.animals.remove({'_id': ObjectId(animal_id)})
     flash(f'Animal Removed!', 'danger')
     return redirect(url_for('animals'))
-    
-#  Default route , sets Login as landing view page
+
+# Route for viewing a single animal page
+@app.route('/animal/<animal_id>')
+def animal(animal_id):
+	animal= mongo.db.animals.find_one({'_id': ObjectId(animal_id)})
+	return render_template('animal.html', animal=animal, title=animal['common_name'])
+
+
 #  Form from forms.py used for both login and register page
 @app.route('/login',methods=['GET','POST'])
 def login():
@@ -93,6 +100,4 @@ def register():
     return render_template('register.html',title='Register', form=form )
 
 if __name__ == '__main__':
-    app.run(host=os.environ.get('IP'),
-            port=int(os.environ.get('PORT')),
-            debug=True)
+    app.run(debug = True) 

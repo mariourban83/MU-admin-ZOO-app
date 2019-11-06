@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block main_content %}
+<div class="row  mx-auto">
+	<div class="container col-md-6 col-lg-4 text-center">
+	{% if animal.img %}
+        <img class="img-fluid" alt="{{animal.common_name}}" src="{{animal.img}}"/>
+        <a class="btn btn-outline btn-sm mt-2 mr-2" href="{{url_for('edit_animal', animal_id=animal._id)}}">
+                <i class="material-icons">create</i></a>
+       <a class="btn btn-outline btn-sm mt-2" href="{{url_for('delete_animal', animal_id=animal._id)}}">
+                <i class="material-icons">delete_sweep</i></a>
+	{% endif %}
+    </div>
+    <div class="container col-md-6 mt-5 text-dark">
+            {% if animal %}
+                <p>Scientific name :  {{ animal.scientific_name }}</p>
+                <p>Weight :  {{ animal.weight }} </p>
+                <p>Size :  {{ animal.size }} </p>
+                <p>Average Lifespan :  {{ animal.avg_lifespan}} </p>
+                <p>Diet :  {{ animal.diet }} </p>
+                <p>{{ animal.about }} </p>
+                <br>
+                <a class="btn btn-outline-info text-dark mr-2" href="{{ url_for('animals') }}">Back to Animals</a>
+            {% endif %}
+    </div>
+</div>
+{% endblock main_content %}

@@ -9,6 +9,12 @@ body {
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
 }
+
+p {
+  color:black;
+  font-weight: 400;
+
+}
 /* Properties for images with overlay on home page */
 /* source : https://stackoverflow.com/questions/53727792/bootstrap-responsive-images-with-shadowtext-overlays-and-another-overlay-when-h */
 .db-options {
