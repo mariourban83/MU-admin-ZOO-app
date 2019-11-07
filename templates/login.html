@@ -1,36 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="shortcut icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    rel="stylesheet">
-      <!--Custom CSS-->
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/main.css') }}">
-
-  {% if title %}
-  <!--To print Title for each page if available-->
-  <title> ZOO | {{ title }}</title>
-  {% else %}
-  <title>ZOO</title>
-  {% endif %}
-</head>
-
-<body>
-  <!--Print Name for each page if available-->
-  {% if title %}
-    <h2 class="text-center pt-3 mb-4">ZOO | {{ title }}</h2>
-  {% else %}
-    <h4>ZOO</h4>
-  {% endif %}
-
-  <!-- For displaying content on individual pages -->
+{% extends 'layout.html'%}
+{% block main_content %}
   <div class="container">
         <div class="row">
             <div class="com-md-8 mx-auto">
@@ -47,16 +16,16 @@
             <fieldset class="form-group">
                 <legend class="mb-5">Login Here</legend>
                 <div class="form-group">
-                    {{ form.user_email.label(class="form-control-label") }}
-                    {% if form.user_email.errors  %}
-                        {{ form.user_email(class="form-control form-control-md is-invalid") }}
+                    {{ form.username.label(class="form-control-label") }}
+                    {% if form.username.errors  %}
+                        {{ form.username(class="form-control form-control-md is-invalid") }}
                         <div class="invalid-feedback">
-                            {% for error in form.user_email.errors %}
+                            {% for error in form.username.errors %}
                                 <span>{{ error }}</span>
                             {% endfor %}    
                         </div>
                     {% else %}
-                        {{ form.user_email(class="form-control form-control-md") }}
+                        {{ form.username(class="form-control form-control-md") }}
                     {% endif %}
                 </div>
                 <div class="form-group">
@@ -81,31 +50,4 @@
             <small>New Member? <a class="ml-2" href="{{ url_for('register') }}">Register Here!</a></small>
         </form>
     </div>
-  <!-- Footer -->
-  <hr>
-  <footer>
-    <div class="container-fluid">
-      <p class="text-center">
-        For Educational Purposes Only
-        <br>
-        Copyright @ 2019
-        <p>
-    </div>
-  </footer>
-
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-  </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-  </script>
-</body>
-
-</html>
-
-
-
-
+  {% endblock main_content%}

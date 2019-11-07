@@ -65,14 +65,14 @@ def update_animal(animal_id):
         'source':request.form.get('source'),
         'section':request.form.get('section')
     })
-    flash(f'Animal Updated!', 'success')
+    flash(f'Successfuly Updated!', 'success')
     return redirect(url_for('animals'))
 
 #  Route for removing animal from the database
 @app.route('/delete_animal/<animal_id>')
 def delete_animal(animal_id):
     mongo.db.animals.remove({'_id': ObjectId(animal_id)})
-    flash(f'Animal Removed!', 'danger')
+    flash(f'Successfuly Removed!', 'danger')
     return redirect(url_for('animals'))
 
 # Route for viewing a single animal page
@@ -86,12 +86,16 @@ def animal(animal_id):
 @app.route('/login',methods=['GET','POST'])
 def login():
     form = LoginForm()
-    if form.validate_on_submit():
-        if form.user_email.data == 'admin@zoo.com' and form.password.data == 'password':
-            flash(f'Login Successful for {form.user_email.data}!', 'success')
-            return redirect(url_for('home'))
-        else:
-             flash('Login Unsuccessful! Please check username and password', 'danger')  
+    if form.validate_on_submit() and request.method == 'POST':
+        user = mongo.db.users.find_one({'username': request.form['username']})
+    
+        if user:
+            if bcrypt.hashpw(request.form['password'].encode('utf-8'), user['password']) == user['password']:
+                session['username'] = request.form['username']
+                flash(f'Login Successful for {form.username.data}!', 'success')
+                return redirect(url_for('home'))
+            else:    
+                flash('Login Unsuccessful! Please check username or password', 'danger')  
     return render_template('login.html',title='Login', form=form )    
 
 @app.route('/register', methods=['GET','POST'])
@@ -99,17 +103,20 @@ def register():
     form = RegistrationForm()
     users = mongo.db.users
     if form.validate_on_submit() and request.method == 'POST':
-        existing_user = users.find_one({'user_email' : request.form['user_email']})
+        existing_user = users.find_one({'email' : request.form['email']})
         
         if existing_user is None:
                 hashpass = bcrypt.hashpw(request.form['password'].encode('utf-8'), bcrypt.gensalt())
-                users.insert({'username' : request.form['username'],'user_email' : request.form['user_email'], 'password' : hashpass})
-                session['user_email'] = request.form['user_email']
+                users.insert({'username' : request.form['username'],'email' : request.form['email'], 'password' : hashpass})
+                session['email'] = request.form['email']
                 flash(f'Account Created for {form.username.data}!', 'success')
-                return redirect(url_for('home'))
+                return redirect(url_for('account'))
         flash('Unsuccessful! Username or password already in use!', 'danger')
     return render_template('register.html', title='Register', form=form)
-        
+
+@app.route('/account')
+def account():
+    return render_template('account.html',title='Your Account')            
 
 if __name__ == '__main__':
 	app.run(host=os.getenv('IP'), port=os.getenv('PORT'), debug=False)  

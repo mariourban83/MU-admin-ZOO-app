@@ -11,7 +11,7 @@
             <a class="btn btn-outline btn-sm" href="{{ url_for('animal', animal_id=animal._id) }}">
                      <i class="material-icons">remove_red_eye</i>
             <h5 class="card-title">{{ animal.common_name }}</h5>            
-            <img src="{{ animal.img }}" class="card-img rounded" alt="...">
+            <img src="{{ animal.img }}" class="card-img rounded-circle" alt="Image of {{ animal.common_name }}">
         </a>  
         </div>
     {% endfor %}
