@@ -61,3 +61,14 @@ p {
   font-family: 'Poppins', sans-serif;
   font-weight: 300;
 }
+
+/* Properties for icons  */
+
+.red-icon {
+  color : rgba(255, 51, 0);
+  font-size: 2.2rem;
+}
+.green-icon {
+  color : rgba(0, 145, 31);
+  font-size: 2.2rem;
+}

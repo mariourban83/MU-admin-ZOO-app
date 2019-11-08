@@ -4,7 +4,7 @@
 <div class="container col-8 col-md-5">
     <form action="{{ url_for('update_animal', animal_id=animal._id) }}" method="POST">
             <div class="form-group">
-                    <label for="title">Common Name</label>
+                    <label for="title">*Common Name</label>
                     <input type="text" name="common_name" id="common_name" value="{{animal.common_name}}" class="form-control" required>
             </div>
                 <div class="form-group">
@@ -13,19 +13,19 @@
                 </div>
                 <div class="form-group">
                         <label for="title">Diet</label>
-                        <input type="text" name="diet" id="diet" value="{{animal.diet}}" class="form-control" required>
+                        <input type="text" name="diet" id="diet" value="{{animal.diet}}" class="form-control">
                 </div>
                 <div class="form-group">
                         <label for="title">Average Lifespan</label>
-                        <input type="text" name="avg_lifespan" id="avg_lifespan" value="{{animal.avg_lifespan}}" class="form-control" required>
+                        <input type="text" name="avg_lifespan" id="avg_lifespan" value="{{animal.avg_lifespan}}" class="form-control">
                 </div>
                 <div class="form-group">
                         <label for="title">Size</label>
-                        <input type="text" name="size" id="size" value="{{animal.size}}" class="form-control" required>
+                        <input type="text" name="size" id="size" value="{{animal.size}}" class="form-control">
                 </div>
                 <div class="form-group">
                         <label for="title">Weight</label>
-                        <input type="text" name="weight" id="weight" value="{{animal.weight}}" class="form-control" required>
+                        <input type="text" name="weight" id="weight" value="{{animal.weight}}" class="form-control">
                 </div>
                 <div class="form-group">
                     <label for="title">About</label>
@@ -40,12 +40,8 @@
                             <input type="text" name="facts" id="facts" value="{{animal.facts}}" class="form-control">
                         </div>
                 <div class="form-group">
-                        <label for="title">Link to Image</label>
+                        <label for="title">*Link to Image</label>
                         <input type="text" name="img" id="img" value="{{animal.img}}" class="form-control" required>
-                </div>
-                <div class="form-group">
-                        <label for="title">Sources of info entered</label>
-                        <input type="text" name="source" placeholder="example: nationalgeographic.com" id="source" value="{{animal.source}}" class="form-control" required>
                 </div>
                 <br>
                 <div class="container text-center">

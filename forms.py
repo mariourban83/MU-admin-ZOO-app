@@ -10,28 +10,27 @@ class LoginForm(FlaskForm):
 
 # Flask Registration Form 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', 
+    username = StringField('*Username (5 - 20 characters)', 
                             validators=[DataRequired(), Length(min=5, max=20)])
-    email = StringField('Email', 
+    email = StringField('*Email', 
                             validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired(), Length(min=5, max=10)])
-    confirm_password = PasswordField('Confirm Password', 
+    password = PasswordField('*Password (5 - 10 characters)', validators=[DataRequired(), Length(min=5, max=10)])
+    confirm_password = PasswordField('*Confirm Password', 
                                     validators=[DataRequired(), EqualTo('password')])                        
     submit = SubmitField('Sign Up')
 
 # Flask Form for Adding or updating Animals to the mongoDB
 class AnimalForm(FlaskForm):
-    common_name = StringField('Common name :', validators=[DataRequired()])
+    common_name = StringField('*Animal Name :', validators=[DataRequired()])
     scientific_name = StringField('Scientific name :')
     diet = StringField('Diet :')
     avg_lifespan = StringField('Avg lifespan :')
     size = StringField('Size :')
     weight = StringField('Weight :')
-    about = TextAreaField('About (optional) :')
-    behavior = TextAreaField('Behavior (optional) :')
-    facts = TextAreaField('Facts (optional):')
-    img = StringField('Image url:', validators=[DataRequired()])
-    source = StringField('Source of info entered:')
-    section = StringField('Section :')
-    other = TextAreaField('Other (optional) :')
+    about = TextAreaField('About :')
+    behavior = TextAreaField('Behavior :')
+    facts = TextAreaField('Facts :')
+    img = StringField('*Image url:', validators=[DataRequired()])
+    source = StringField('Source of info entered :')
+    other = TextAreaField('Other :')
     submit = SubmitField('Submit')

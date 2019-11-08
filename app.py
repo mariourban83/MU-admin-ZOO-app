@@ -8,9 +8,8 @@ from bson.objectid import ObjectId
 
 # Config files for the app
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'bd57fa89f3141ef0b5546c8967a93507'
 app.config["MONGO_URI"] = 'mongodb+srv://mario_1:PEgPBNn89YWJ4GYQ@testing1-kwpyu.mongodb.net/zoo?retryWrites=true&w=majority'
-
+app.secret_key = os.urandom(24)
 mongo = PyMongo(app)
 
 # Route for Default view
@@ -120,7 +119,7 @@ def register():
                 users.insert({'username' : request.form['username'],'email' : request.form['email'], 'password' : hashpass})
                 session['email'] = request.form['email']
                 flash(f'Account Created for {form.username.data}!', 'success')
-                return redirect(url_for('account'))
+                return redirect(url_for('home'))
         flash('Unsuccessful! Username or email already in use!', 'danger')
     return render_template('register.html', title='Register', form=form)
 
