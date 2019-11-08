@@ -166,21 +166,8 @@
                                                 {% endif %}
                                         </div>
                                         <div class="form-group">
-                                                {{ form.other.label(class="form-control-label") }}
-                                                {% if form.other.errors  %}
-                                                {{ form.other(class="form-control form-control-md is-invalid") }}
-                                                <div class="invalid-feedback">
-                                                        {% for error in form.other.errors %}
-                                                        <span>{{ error }}</span>
-                                                        {% endfor %}
-                                                </div>
-                                                {% else %}
-                                                {{ form.other(class="form-control form-control-md") }}
-                                                {% endif %}
-                                        </div>
-                                        <div class="form-group">
                                                 {{ form.submit(class="btn btn-outline-info") }}
-                                                <a class="ml-2 text-danger" href="{{ url_for('animals') }}">Discard Changes and Go Back!</a>
+                                                <a class="ml-2 text-danger" href="{{ url_for('animals') }}">Discard Changes!</a>
                                         </div>
                                 </div>
                         </div>
