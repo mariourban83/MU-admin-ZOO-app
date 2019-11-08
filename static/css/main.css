@@ -1,7 +1,11 @@
 
 /* Global Properties */
+
+/*Imported fonts */
 @import url('https://fonts.googleapis.com/css?family=Poppins:300, 400&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap');
+
+/* Background properties for all pages */
 
 body {
     background-image: url("https://www.dublinzoo.ie/wp-content/themes/zoo/assets/dist/images/patterns/cta-giraffe1.svg");
@@ -51,7 +55,7 @@ p {
     -webkit-transform: translateY(0);
     transform: translateY(0);
   }
-  /* End of Properties for images with overlay on home page */
+/* End of Properties for images with overlay on home page */
 
 .animal_name {
   font-family: 'Poppins', sans-serif;

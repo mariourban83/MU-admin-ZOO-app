@@ -19,7 +19,7 @@ class RegistrationForm(FlaskForm):
                                     validators=[DataRequired(), EqualTo('password')])                        
     submit = SubmitField('Sign Up')
 
-# Flask Form for Adding New Animal to DB
+# Flask Form for Adding or updating Animals to the mongoDB
 class AnimalForm(FlaskForm):
     common_name = StringField('Common name :', validators=[DataRequired()])
     scientific_name = StringField('Scientific name :')

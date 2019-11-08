@@ -1,4 +1,3 @@
-# Modules and libraries imported
 import os
 import bcrypt
 from flask import Flask, render_template, url_for,flash, redirect, request, session
@@ -11,22 +10,25 @@ from bson.objectid import ObjectId
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'bd57fa89f3141ef0b5546c8967a93507'
 app.config["MONGO_URI"] = 'mongodb+srv://mario_1:PEgPBNn89YWJ4GYQ@testing1-kwpyu.mongodb.net/zoo?retryWrites=true&w=majority'
+
 mongo = PyMongo(app)
 
-# Route for Home view
+# Route for Default view
 @app.route("/")
+@app.route("/welcome")
+def welcome():
+    return render_template('welcome.html')
+
 @app.route('/home')
 def home():
+    # Variable animals set for displaying actual number from db 
     animals=mongo.db.animals.count()
     return render_template('index.html',title='Home',animals=animals)
 
-#  Route for Animals view with all animals pulled from mongoDB and displayed
-@app.route('/animals')
-def animals():
-    animals = mongo.db.animals.find() 
-    return render_template('animals.html',title='Animals', animals=animals) 
+#----- CRUD OPERATIONS -----
 
-#  Route for new animal view- for adding new animal to the mongoDB   
+# Create #
+# Route for new animal view- for adding new animal to the mongoDB   
 @app.route('/new',methods=['GET','POST'])
 def new_animal():
     form = AnimalForm()
@@ -37,16 +39,28 @@ def new_animal():
             
     return render_template('new_animal.html',title='Add new Animal', form=form )
 
+## READ ##
+#  Route for Animals view with all animals pulled from mongoDB displayed
+@app.route('/animals')
+def animals():
+    animals = mongo.db.animals.find() 
+    return render_template('animals.html',title='Animals', animals=animals) 
 
+# Route for viewing a single animal page
+@app.route('/animal/<animal_id>')
+def animal(animal_id):
+	animal= mongo.db.animals.find_one({'_id': ObjectId(animal_id)})
+	return render_template('animal.html', animal=animal, title=animal['common_name'])
+
+## UPDATE ##
 #  Route for editing existing animal
-#  After selecting edit-animal on page, data are transfered and populated 
-#  in the form ready for editing
+#  After selecting edit-animal, id-based data are transfered from mongo and populated in the form ready for editing
 @app.route('/edit_animal/<animal_id>')
 def edit_animal(animal_id):
     animal =  mongo.db.animals.find_one({"_id": ObjectId(animal_id)})
     return render_template('edit_animal.html', animal=animal,title='Edit Animal')
 
-# Function called after submitting for updating animal in mongoDB
+# Function called after submitting form for updating animal in mongoDB
 @app.route('/update_animal/<animal_id>', methods=['GET','POST'])
 def update_animal(animal_id):
     animals = mongo.db.animals
@@ -68,19 +82,13 @@ def update_animal(animal_id):
     flash(f'Successfuly Updated!', 'success')
     return redirect(url_for('animals'))
 
+## REMOVE ##
 #  Route for removing animal from the database
 @app.route('/delete_animal/<animal_id>')
 def delete_animal(animal_id):
     mongo.db.animals.remove({'_id': ObjectId(animal_id)})
     flash(f'Successfuly Removed!', 'danger')
     return redirect(url_for('animals'))
-
-# Route for viewing a single animal page
-@app.route('/animal/<animal_id>')
-def animal(animal_id):
-	animal= mongo.db.animals.find_one({'_id': ObjectId(animal_id)})
-	return render_template('animal.html', animal=animal, title=animal['common_name'])
-
 
 #  Form from forms.py used for both login and register page
 @app.route('/login',methods=['GET','POST'])
@@ -94,10 +102,12 @@ def login():
                 session['username'] = request.form['username']
                 flash(f'Login Successful for {form.username.data}!', 'success')
                 return redirect(url_for('home'))
-            else:    
-                flash('Login Unsuccessful! Please check username or password', 'danger')  
+            else: flash('Password and username doesnt match our records!', 'danger')     
+        else: flash('Login Unsuccessful! Please check username or password', 'danger')  
     return render_template('login.html',title='Login', form=form )    
 
+# For registering new users
+# Use of bcrypt for hashing passwords (hashed password stored in db)
 @app.route('/register', methods=['GET','POST'])
 def register():
     form = RegistrationForm()
@@ -111,9 +121,10 @@ def register():
                 session['email'] = request.form['email']
                 flash(f'Account Created for {form.username.data}!', 'success')
                 return redirect(url_for('account'))
-        flash('Unsuccessful! Username or password already in use!', 'danger')
+        flash('Unsuccessful! Username or email already in use!', 'danger')
     return render_template('register.html', title='Register', form=form)
 
+# Account page with user info tbc.....
 @app.route('/account')
 def account():
     return render_template('account.html',title='Your Account')            
